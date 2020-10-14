@@ -7,6 +7,10 @@ AddEventHandler('popdensity:setMultiplier', function(multiplier)
 end)
 
 CreateThread(function()
+	TriggerEvent('chat:addSuggestion', '/popdensity', 'Set the population density multiplier', {
+		{name = 'multiplier', help = 'A number between 0.0 (no population) and 1.0 (max population)'}
+	})
+
 	while true do
 		Wait(0)
 		if SetPedDensityMultiplierThisFrame then
