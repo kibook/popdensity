@@ -4,12 +4,12 @@ Control the ped and vehicle density for all clients.
 
 ## Configuration
 
-| Variable                 | Description                                                    |
-|--------------------------|----------------------------------------------------------------|
-| Config.DensityMultiplier | A number between 0.0 (no population) and 1.0 (max population). |
+| Variable                   | Description                                                    |
+|----------------------------|----------------------------------------------------------------|
+| `Config.DensityMultiplier` | A number between 0.0 (no population) and 1.0 (max population). |
 
 ## Commands
 
-| Command                  | Description                             |
-|--------------------------|-----------------------------------------|
-| /popdensity [multiplier] | Set the population density dynamically. |
+| Command                    | Description                             |
+|----------------------------|-----------------------------------------|
+| `/popdensity [multiplier]` | Set the population density dynamically. |
