@@ -7,7 +7,7 @@ end
 
 RegisterCommand('popdensity', function(source, args, raw)
 	if not args[1] then
-		Error(source, 'No multiplier specified')
+		TriggerClientEvent('popdensity:showMultiplier', source)
 		return
 	end
 
