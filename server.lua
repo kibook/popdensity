@@ -1,3 +1,7 @@
+local DensityMultiplier = Config.DensityMultiplier
+
+RegisterNetEvent('popdensity:sync')
+
 function Error(source, message)
 	TriggerClientEvent('chat:addMessage', source, {
 		color = {255, 0, 0},
@@ -7,7 +11,10 @@ end
 
 RegisterCommand('popdensity', function(source, args, raw)
 	if not args[1] then
-		TriggerClientEvent('popdensity:showMultiplier', source)
+		TriggerClientEvent('chat:addMessage', source, {
+			color = {255, 255, 128},
+			args = {'Density Multiplier', string.format('%.1f', DensityMultiplier)}
+		})
 		return
 	end
 
@@ -18,5 +25,11 @@ RegisterCommand('popdensity', function(source, args, raw)
 		return
 	end
 
-	TriggerClientEvent('popdensity:setMultiplier', -1, multiplier * 1.0)
+	DensityMultiplier = multiplier * 1.0
+
+	TriggerClientEvent('popdensity:setMultiplier', -1, DensityMultiplier)
 end, true)
+
+AddEventHandler('popdensity:sync', function()
+	TriggerClientEvent('popdensity:setMultiplier', -1, DensityMultiplier)
+end)
