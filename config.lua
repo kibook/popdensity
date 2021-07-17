@@ -1,3 +1,3 @@
 Config = {}
 
-Config.DensityMultiplier = 1.0
+Config.densityMultiplier = 1.0
