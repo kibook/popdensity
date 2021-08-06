@@ -1,10 +1,6 @@
-local densityMultiplier = Config.densityMultiplier
+local densityMultipliers = Config.densityMultipliers
 
-RegisterNetEvent('popdensity:setMultiplier')
-
-AddEventHandler('popdensity:setMultiplier', function(multiplier)
-	densityMultiplier = multiplier
-end)
+RegisterNetEvent("popdensity:setMultipliers")
 
 function SetAmbientAnimalDensityMultiplierThisFrame(multiplier)
 	Citizen.InvokeNative(0xC0258742B034DFAF, multiplier)
@@ -26,31 +22,43 @@ function SetScenarioHumanDensityThisFrame(multiplier)
 	Citizen.InvokeNative(0x28CB6391ACEDD9DB, multiplier)
 end
 
-Citizen.CreateThread(function()
-	TriggerEvent('chat:addSuggestion', '/popdensity', 'Set the population density multiplier', {
-		{name = 'multiplier', help = 'A number between 0.0 (no population) and 1.0 (max population). Omit to print current multiplier.'}
-	})
+exports("getMultiplier", function(name)
+	return densityMultipliers[name]
+end)
 
-	TriggerServerEvent('popdensity:sync')
+exports("setMultiplier", function(name, value)
+	densityMultipliers[name] = value
+end)
+
+exports("resetMultiplier", function(name)
+	densityMultipliers[name] = Config.densityMultipliers[name]
+end)
+
+AddEventHandler("popdensity:setMultipliers", function(multipliers)
+	densityMultipliers = multipliers
+end)
+
+Citizen.CreateThread(function()
+	TriggerServerEvent("popdensity:sync")
 
 	while true do
 		if SetPedDensityMultiplierThisFrame then
 			-- FiveM
-			SetPedDensityMultiplierThisFrame(densityMultiplier)
-			SetScenarioPedDensityMultiplierThisFrame(densityMultiplier, densityMultiplier)
+			SetPedDensityMultiplierThisFrame(densityMultipliers.ambientPeds)
+			SetScenarioPedDensityMultiplierThisFrame(densityMultipliers.scenarioPeds, densityMultipliers.scenarioPeds)
 		else
 			-- RedM
-			SetAmbientAnimalDensityMultiplierThisFrame(densityMultiplier)
-			SetAmbientHumanDensityMultiplierThisFrame(densityMultiplier)
-			SetAmbientPedDensityMultiplierThisFrame(densityMultiplier)
-			SetScenarioAnimalDensityThisFrame(densityMultiplier)
-			SetScenarioHumanDensityThisFrame(densityMultiplier)
-			SetScenarioPedDensityMultiplierThisFrame(densityMultiplier)
+			SetAmbientAnimalDensityMultiplierThisFrame(densityMultipliers.ambientAnimals)
+			SetAmbientHumanDensityMultiplierThisFrame(densityMultipliers.ambientHumans)
+			SetAmbientPedDensityMultiplierThisFrame(densityMultipliers.ambientPeds)
+			SetScenarioAnimalDensityThisFrame(densityMultipliers.scenarioAnimals)
+			SetScenarioHumanDensityThisFrame(densityMultipliers.scenarioHumans)
+			SetScenarioPedDensityMultiplierThisFrame(densityMultipliers.scenarioPeds)
 		end
 
-		SetParkedVehicleDensityMultiplierThisFrame(densityMultiplier)
-		SetRandomVehicleDensityMultiplierThisFrame(densityMultiplier)
-		SetVehicleDensityMultiplierThisFrame(densityMultiplier)
+		SetParkedVehicleDensityMultiplierThisFrame(densityMultipliers.parkedVehicles)
+		SetRandomVehicleDensityMultiplierThisFrame(densityMultipliers.randomVehicles)
+		SetVehicleDensityMultiplierThisFrame(densityMultipliers.vehicles)
 
 		Citizen.Wait(0)
 	end

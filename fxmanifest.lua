@@ -1,15 +1,12 @@
-fx_version 'adamant'
-games { 'gta5', 'rdr3' }
-rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
+fx_version "cerulean"
+games { "gta5", "rdr3" }
+rdr3_warning "I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships."
 
-shared_scripts {
-	'config.lua'
-}
+name "popdensity"
+author "kibukj"
+description "Population density control for FiveM and RedM"
+repository "https://github.com/kibook/popdensity"
 
-client_scripts {
-	'client.lua'
-}
-
-server_scripts {
-	'server.lua'
-}
+shared_script "config.lua"
+server_script "server.lua"
+client_script "client.lua"
